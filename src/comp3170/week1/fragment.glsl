@@ -6,13 +6,17 @@ uniform vec2 u_screenSize;  	// screen dimensions in pixels
 layout(location = 0) out vec4 o_colour;	// output to colour buffer
 
 void main() {
-   vec2 p = gl_FragCoord.xy / u_screenSize;   // scale p into range (0,0) to (1,1)
-   float d = distance(p, vec2(0.5, 0.5));     // calculate distance to midpoint
-  
-   if (d < 0.5) {
+   vec2 p = gl_FragCoord.xy / u_screenSize;  // scale p into range (0,0) to (1,1)
+   
+   // Manhattan distance from the center (creates a diamond shape)
+   float manhattanDist = abs(p.x - 0.5) + abs(p.y - 0.5); // different formula to make up the diamond shape
+   
+   // Set the diamond size
+   if (manhattanDist < 0.25) {
       o_colour = vec4(u_colour, 1);
    }
    else {
-      o_colour = vec4(0,0,0,1); // BLACK
+      o_colour = vec4(0, 0, 0, 1); // Background colour, here its BLACK
    }
 }
+
