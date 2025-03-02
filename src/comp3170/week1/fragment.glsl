@@ -8,15 +8,14 @@ layout(location = 0) out vec4 o_colour;	// output to colour buffer
 void main() {
    vec2 p = gl_FragCoord.xy / u_screenSize;  // scale p into range (0,0) to (1,1)
    
-   // Manhattan distance from the center (creates a diamond shape)
-   float manhattanDist = abs(p.x - 0.5) + abs(p.y - 0.5); // different formula to make up the diamond shape
+   float d = abs(p.x - 0.5) + abs(p.y - 0.5); // undo the curved circle to straight edges
    
    // Set the diamond size
-   if (manhattanDist < 0.25) {
+   if (d < 0.25) {
       o_colour = vec4(u_colour, 1);
    }
    else {
-      o_colour = vec4(0, 0, 0, 1); // Background colour, here its BLACK
+      o_colour = vec4(0, 0, 0, 1); // inverse color of the shape, in this case, its BLACK
    }
 }
 
